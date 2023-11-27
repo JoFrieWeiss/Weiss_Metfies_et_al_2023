@@ -1,0 +1,207 @@
+install.packages("remotes")
+remotes::install_github("kasperskytte/ampvis2", Ncpus = 6)
+
+library(ampvis2)
+
+asvtablo <- read.table("Retry_Figures_OTU_290722.txt", header = TRUE, row.names = 1)
+metadato <- read.table("MetadatenFrontStudy_mitCluster.txt", header = TRUE)
+ASVforMDSNEW<- amp_load(otutable = asvtablo ,
+                        metadata = metadato)
+
+amp_ordinate(
+  ASVforMDSNEW,
+  filter_species = 0.1,
+  type = "nmds",
+  distmeasure = "jaccard",
+  transform = "none",
+  constrain = NULL,
+  x_axis = 1,
+  y_axis = 2,
+  print_caption = FALSE,
+  sample_color_by = "Group",
+  sample_color_order = NULL,
+  sample_shape_by = NULL,
+  sample_colorframe = FALSE,
+  sample_colorframe_label = NULL,
+  sample_colorframe_label_size = 3,
+  sample_label_by = "Station",
+  sample_label_size = 4,
+  sample_label_segment_color = "black",
+  sample_point_size = 2,
+  sample_trajectory = NULL,
+  sample_trajectory_group = NULL,
+  sample_plotly = NULL,
+  species_plot = FALSE,
+  species_nlabels = 0,
+  species_label_taxonomy = "Genus",
+  species_label_size = 3,
+  species_label_color = "grey10",
+  species_rescale = FALSE,
+  species_point_size = 2,
+  species_shape = 20,
+  species_plotly = FALSE,
+  envfit_factor = NULL,
+  envfit_numeric = NULL,
+  envfit_signif_level = 0.005,
+  envfit_textsize = 6,
+  envfit_textcolor = "darkred",
+  envfit_numeric_arrows_scale = 1,
+  envfit_arrowcolor = "darkred",
+  envfit_show = TRUE,
+  repel_labels = TRUE,
+  opacity = 0.8,
+  tax_empty = "best",
+  detailed_output = FALSE,
+  num_threads = 1L
+) + theme(panel.background = element_rect(fill = NA, colour = "black", size = 1, linetype = "solid")) + stat_ellipse(level = 0.90)
+
+### RDA
+# Salinity
+# Run RDA using amp_ordinate()
+ordinationresult <- amp_ordinate(
+  ASVforMDSNEW, 
+  type = "RDA",
+  constrain = "Salinity",
+  transform = "Hellinger",
+  sample_color_by = "Salinity",
+  sample_shape_by = "Group",
+  sample_colorframe = FALSE,
+  sample_colorframe_label = "Salinity",
+  detailed_output = TRUE
+)
+
+# Manually set a gradient color palette
+colfunc <- colorRampPalette(c("blue","white","red"))
+Color_palettes<-colfunc(100)
+plot(rep(1,100),col=colfunc(100),pch=19,cex=3)
+# Set breaks for the gradient scale
+#salinity_colors <- color_palette[cut(salinity_values, breaks = 50, include.lowest = TRUE)]
+ordinationresult$plot + scale_color_manual(values = Color_palettes)
+
+
+print(ordinationresult)
+
+#Temperature
+
+# Run RDA using amp_ordinate()
+ordinationresult <- amp_ordinate(
+  ASVforMDSNEW, 
+  type = "RDA",
+  constrain = "Temperature",
+  transform = "Hellinger",
+  sample_color_by = "Temperature",
+  sample_shape_by = "Group",
+  sample_colorframe = FALSE,
+  sample_colorframe_label = "Temperature",
+  detailed_output = TRUE
+)
+
+# Manually set a gradient color palette
+colfunc <- colorRampPalette(c("blue","white","red"))
+Color_palettes<-colfunc(100)
+plot(rep(1,100),col=colfunc(100),pch=19,cex=3)
+# Set breaks for the gradient scale
+#Temp_colors <- color_palette[cut(Temp_values, breaks = 50, include.lowest = TRUE)]
+ordinationresult$plot + scale_color_manual(values = Color_palettes)
+
+print(ordinationresult)
+
+
+# Run RDA using amp_ordinate()
+ordinationresult <- amp_ordinate(
+  ASVforMDSNEW, 
+  type = "RDA",
+  constrain = "Chl.a",
+  transform = "Hellinger",
+  sample_color_by = "Chl.a",
+  sample_shape_by = "Group",
+  sample_colorframe = FALSE,
+  sample_colorframe_label = "Chl.a",
+  detailed_output = TRUE
+)
+
+# Manually set a gradient color palette
+colfunc <- colorRampPalette(c("yellow","darkgreen"))
+Color_palettes<-colfunc(150)
+plot(rep(1,150),col=colfunc(150),pch=19,cex=3)
+# Set breaks for the gradient scale
+#Temp_colors <- color_palette[cut(Temp_values, breaks = 50, include.lowest = TRUE)]
+ordinationresult$plot + scale_color_manual(values = Color_palettes)
+
+print(ordinationresult)
+
+
+str(ASVforMDSNEW)
+
+# Run RDA using amp_ordinate()
+ordinationresult <- amp_ordinate(
+  ASVforMDSNEW, 
+  type = "RDA",
+  constrain = "NO3",
+  transform = "Hellinger",
+  sample_color_by = "NO3",
+  sample_shape_by = "Group",
+  sample_colorframe = FALSE,
+  sample_colorframe_label = "NO3",
+  detailed_output = TRUE
+)
+
+# Manually set a gradient color palette
+colfunc <- colorRampPalette(c("lightpink","purple"))
+Color_palettes<-colfunc(100)
+plot(rep(1,100),col=colfunc(100),pch=19,cex=3)
+# Set breaks for the gradient scale
+#Temp_colors <- color_palette[cut(Temp_values, breaks = 50, include.lowest = TRUE)]
+ordinationresult$plot + scale_color_manual(values = Color_palettes)
+
+print(ordinationresult)
+
+
+str(ASVforMDSNEW)
+
+# Run RDA using amp_ordinate()
+ordinationresult <- amp_ordinate(
+  ASVforMDSNEW, 
+  type = "RDA",
+  constrain = "Si",
+  transform = "Hellinger",
+  sample_color_by = "Si",
+  sample_shape_by = "Group",
+  sample_colorframe = FALSE,
+  sample_colorframe_label = "Si",
+  detailed_output = TRUE
+)
+
+# Manually set a gradient color palette
+colfunc <- colorRampPalette(c("lightblue","black"))
+Color_palettes<-colfunc(100)
+plot(rep(1,100),col=colfunc(100),pch=19,cex=3)
+# Set breaks for the gradient scale
+#Temp_colors <- color_palette[cut(Temp_values, breaks = 50, include.lowest = TRUE)]
+ordinationresult$plot + scale_color_manual(values = Color_palettes)
+
+print(ordinationresult)
+
+# Run RDA using amp_ordinate()
+ordinationresult <- amp_ordinate(
+  ASVforMDSNEW, 
+  type = "RDA",
+  constrain = "PO4",
+  transform = "Hellinger",
+  sample_color_by = "PO4",
+  sample_shape_by = "Group",
+  sample_colorframe = FALSE,
+  sample_colorframe_label = "PO4",
+  detailed_output = TRUE
+)
+
+# Manually set a gradient color palette
+colfunc <- colorRampPalette(c("lightgreen","blue"))
+Color_palettes<-colfunc(100)
+plot(rep(1,100),col=colfunc(100),pch=19,cex=3)
+# Set breaks for the gradient scale
+#Temp_colors <- color_palette[cut(Temp_values, breaks = 50, include.lowest = TRUE)]
+ordinationresult$plot + scale_color_manual(values = Color_palettes)
+
+print(ordinationresult)
+
