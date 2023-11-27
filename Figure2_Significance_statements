@@ -1,0 +1,143 @@
+################################################################################
+########### Weiß, Metfies et al., 2023 #########################################
+################################################################################
+GROUPS_Environmental_Parameter <- read.delim2("~/Desktop/Weiss, Metfies (2022)/GROUPS_Environmental_Parameter.txt")
+
+GROUPS_Environmental_Parameter$Temperature
+GROUPS_Environmental_Parameter$group <- as.factor(GROUPS_Environmental_Parameter$group)
+
+GROUPS_Environmental_Parameter$group = factor(GROUPS_Environmental_Parameter$group, levels=c("IF", "OW", "OE"), labels=c("OW", "IF", "OE"))
+Temperature <- ggplot(GROUPS_Environmental_Parameter, aes(x=group, y=Temperature, fill=group)) + 
+  geom_boxplot()+
+  theme_bw()+ 
+  scale_fill_brewer(palette = "Greys", direction = 1)+
+  theme(legend.position = "none", axis.title.x = element_blank())
+
+Temp <- Temperature + labs(y = "Temperature (°C)")
+
+
+Salinity <- ggplot(GROUPS_Environmental_Parameter, aes(x=group, y=Salinity, fill=group)) + 
+  geom_boxplot()+
+  theme_bw()+ 
+  scale_fill_brewer(palette = "Greys", direction = 1)+
+  theme(legend.position = "none",axis.title.x = element_blank())
+
+Sali <- Salinity + labs(y = "Salinity (g/l)")
+
+
+Chl_a <- ggplot(GROUPS_Environmental_Parameter, aes(x=group, y=Chl.a, fill=group)) + 
+  geom_boxplot()+
+  theme_bw()+ 
+  scale_fill_brewer(palette = "Greys", direction = 1)+
+  theme(legend.position = "none", axis.title.x = element_blank())
+
+Chl <- Chl_a + labs(y = "Chlorophyll a (µg/l)")
+
+
+Nitrate <- ggplot(GROUPS_Environmental_Parameter, aes(x=group, y=NO3, fill=group)) + 
+  geom_boxplot(outlier.shape = NA)+
+  coord_cartesian(ylim = quantile(GROUPS_Environmental_Parameter$NO3, c(0.1, 0.9)))+
+  theme_bw()+ 
+  scale_fill_brewer(palette = "Greys", direction = 1)+
+  theme(legend.position = "none", axis.title.x = element_blank())
+    
+Nitr <- Nitrate + labs(y = expression("NO"[3] * "(µmol/l)"))
+
+Silicate <- ggplot(GROUPS_Environmental_Parameter, aes(x=group, y=Si, fill=group)) + 
+  geom_boxplot()+
+  theme_bw()+ 
+  scale_fill_brewer(palette = "Greys", direction = 1)+
+  theme(legend.position = "none", axis.title.x = element_blank())
+
+Sil <- Silicate + labs(y = "Silicate (µmol/l)")
+
+Phosphate <-ggplot(GROUPS_Environmental_Parameter, aes(x=group, y=PO4, fill=group)) + 
+  geom_boxplot()+
+  theme_bw()+ 
+  scale_fill_brewer(palette = "Greys", direction = 1)+
+  theme(legend.position = "none", axis.title.x = element_blank())
+
+Pho <- Phosphate + labs(y= expression("PO"[4] * "(µmol/l)"))
+
+ggarrange(Temp,Sali,Chl, Nitr, Sil, Pho, 
+          ncol = 3, nrow = 2, labels = c('A', 'B', "C", "D", "E", "F"))
+
+
+#### Significance test ######
+
+str(GROUPS_Environmental_Parameter)
+
+# Perform one-way ANOVA for each category
+model_Temp <- aov(Temperature ~ group, data = GROUPS_Environmental_Parameter)
+
+# Print the ANOVA results
+summary(model_Temp)
+
+# Perform Tukey-Kramer post-hoc tests
+tukey_results_Temp <- TukeyHSD(model_Temp)
+
+# Print the results
+print(tukey_results_Temp)
+
+# Perform one-way ANOVA for each category
+model_Sal <- aov(Salinity ~ group, data = GROUPS_Environmental_Parameter)
+
+# Print the ANOVA results
+summary(model_Sal)
+
+# Perform Tukey-Kramer post-hoc tests
+tukey_results_Sal <- TukeyHSD(model_Sal)
+
+# Print the results
+print(tukey_results_Sal)
+
+# Perform one-way ANOVA for each category
+model_Chl <- aov(Chl.a ~ group, data = GROUPS_Environmental_Parameter)
+
+# Print the ANOVA results
+summary(model_Chl)
+
+# Perform Tukey-Kramer post-hoc tests
+tukey_results_Chl <- TukeyHSD(model_Chl)
+
+# Print the results
+print(tukey_results_Chl)
+
+# Perform one-way ANOVA for each category
+model_NO3 <- aov(NO3 ~ group, data = GROUPS_Environmental_Parameter)
+
+# Print the ANOVA results
+summary(model_NO3)
+
+# Perform Tukey-Kramer post-hoc tests
+tukey_results_NO3 <- TukeyHSD(model_NO3)
+
+# Print the results
+print(tukey_results_NO3)
+
+# Perform one-way ANOVA for each category
+model_Si <- aov(Si ~ group, data = GROUPS_Environmental_Parameter)
+
+# Print the ANOVA results
+summary(model_Si)
+
+# Perform Tukey-Kramer post-hoc tests
+tukey_results_Si <- TukeyHSD(model_Si)
+
+# Print the results
+print(tukey_results_Si)
+
+# Perform one-way ANOVA for each category
+model_PO4 <- aov(PO4 ~ group, data = GROUPS_Environmental_Parameter)
+
+# Print the ANOVA results
+summary(model_PO4)
+
+# Perform Tukey-Kramer post-hoc tests
+tukey_results_PO4 <- TukeyHSD(model_PO4)
+
+# Print the results
+print(tukey_results_PO4)
+
+
+
