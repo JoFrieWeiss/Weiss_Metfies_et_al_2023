@@ -55,7 +55,8 @@ amp_ordinate(
   num_threads = 1L
 ) + theme(panel.background = element_rect(fill = NA, colour = "black", size = 1, linetype = "solid")) + stat_ellipse(level = 0.90)
 
-Groups <- anosim()
+Groups = anosim(ASVforMDSNEW, ASVforMDSNEW$Group, distance = "bray", permutations = 9999)
+Groups
 
 ### RDA
 # Salinity
