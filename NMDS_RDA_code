@@ -55,6 +55,8 @@ amp_ordinate(
   num_threads = 1L
 ) + theme(panel.background = element_rect(fill = NA, colour = "black", size = 1, linetype = "solid")) + stat_ellipse(level = 0.90)
 
+Groups <- anosim()
+
 ### RDA
 # Salinity
 # Run RDA using amp_ordinate()
